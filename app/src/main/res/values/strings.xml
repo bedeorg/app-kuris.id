@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Abedem</string>
+    <string name="app_tagline">Kurir Ekspedisi - Log &amp; OCR Lokal</string>
+    <string name="dashboard_title">Dashboard Kurir</string>
+    <string name="dashboard_subtitle">Kelola &amp; pantau aktivitas pengiriman harian</string>
+    <string name="label_date">Tanggal Pengiriman</string>
+    <string name="label_nopol">Nomor Polisi (Nopol)</string>
+    <string name="nopol_hint">Contoh: B 1234 ABC</string>
+    <string name="order_name_hint">Nama Orderan / Resi</string>
+    <string name="btn_photo_goods">Foto Barang</string>
+    <string name="btn_photo_waybill">Foto Surat Jalan</string>
+    <string name="btn_submit">Simpan Orderan</string>
+    <string name="ocr_result_title">Hasil Scan Teks OCR (Surat Jalan):</string>
+    <string name="ocr_placeholder">Teks surat jalan akan terdeteksi otomatis setelah difoto…</string>
+    <string name="saved_orders_title">Pengiriman Terbaru</string>
+    <string name="empty_orders">Belum ada orderan tersimpan.</string>
+    <string name="nav_history">Riwayat</string>
+    <string name="btn_export_excel">Export to Excel</string>
+    <string name="filter_all">Semua</string>
+    <string name="filter_today">Hari Ini</string>
+    <string name="filter_7days">7 Hari Terakhir</string>
+    <string name="filter_custom">Pilih Tanggal</string>
+    <string name="search_hint">Cari order, resi, nopol, alamat, atau teks OCR…</string>
+    <string name="title_new_order">Input Order &amp; Scan Bukti</string>
+    <string name="btn_new_order_hero">+ Input / Scan Order Baru</string>
+</resources>

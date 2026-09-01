@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#6750A4</color>
+    <color name="primary_variant">#4F378B</color>
+    <color name="primary_dark_container">#21005D</color>
+    <color name="primary_tonal_light">#EADDFF</color>
+    <color name="primary_tonal_text">#21005D</color>
+    <color name="secondary_tonal_light">#D1E1FF</color>
+    <color name="secondary_tonal_text">#001D35</color>
+    <color name="accent_lilac">#D0BCFF</color>
+    <color name="dark_pill_bg">#381E72</color>
+
+    <color name="background_light">#F3F4F9</color>
+    <color name="surface_card">#FFFFFF</color>
+    <color name="surface_subtle">#F8FAFC</color>
+    <color name="border_subtle">#E2E8F0</color>
+    <color name="border_focus">#6750A4</color>
+    
+    <color name="text_primary">#0F172A</color>
+    <color name="text_secondary">#64748B</color>
+    <color name="text_hint">#94A3B8</color>
+    
+    <color name="badge_green_bg">#DCFCE7</color>
+    <color name="badge_green_text">#15803D</color>
+    <color name="badge_orange_bg">#FFEDD5</color>
+    <color name="badge_orange_text">#C2410C</color>
+    <color name="status_online">#22C55E</color>
+
+    <color name="watermark_bg">#99000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+</resources>
