@@ -162,9 +162,13 @@
                         android:layout_height="wrap_content"
                         android:checked="true"
                         android:text="@string/filter_all"
-                        android:textColor="@color/text_primary"
+                        android:textColor="@color/chip_text_state"
                         android:textSize="12sp"
-                        app:chipCornerRadius="10dp" />
+                        app:checkedIconTint="@color/white"
+                        app:chipBackgroundColor="@color/chip_bg_state"
+                        app:chipCornerRadius="10dp"
+                        app:chipStrokeColor="@color/chip_stroke_state"
+                        app:chipStrokeWidth="1dp" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chipToday"
@@ -172,9 +176,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/filter_today"
-                        android:textColor="@color/text_primary"
+                        android:textColor="@color/chip_text_state"
                         android:textSize="12sp"
-                        app:chipCornerRadius="10dp" />
+                        app:checkedIconTint="@color/white"
+                        app:chipBackgroundColor="@color/chip_bg_state"
+                        app:chipCornerRadius="10dp"
+                        app:chipStrokeColor="@color/chip_stroke_state"
+                        app:chipStrokeWidth="1dp" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip7Days"
@@ -182,9 +190,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/filter_7days"
-                        android:textColor="@color/text_primary"
+                        android:textColor="@color/chip_text_state"
                         android:textSize="12sp"
-                        app:chipCornerRadius="10dp" />
+                        app:checkedIconTint="@color/white"
+                        app:chipBackgroundColor="@color/chip_bg_state"
+                        app:chipCornerRadius="10dp"
+                        app:chipStrokeColor="@color/chip_stroke_state"
+                        app:chipStrokeWidth="1dp" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chipCustomDate"
@@ -192,12 +204,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/filter_custom"
-                        android:textColor="@color/text_primary"
+                        android:textColor="@color/chip_text_state"
                         android:textSize="12sp"
+                        app:checkedIconTint="@color/white"
+                        app:chipBackgroundColor="@color/chip_bg_state"
                         app:chipCornerRadius="10dp"
                         app:chipIcon="@drawable/ic_calendar"
                         app:chipIconSize="16dp"
-                        app:chipIconTint="@color/primary" />
+                        app:chipIconTint="@color/chip_icon_state"
+                        app:chipStrokeColor="@color/chip_stroke_state"
+                        app:chipStrokeWidth="1dp" />
 
                 </com.google.android.material.chip.ChipGroup>
             </HorizontalScrollView>

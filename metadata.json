@@ -1,5 +1,5 @@
 {
-  "name": "Abde.kurir",
+  "name": "abde.kurir",
   "description": "Aplikasi kurir ekspedisi untuk pencatatan order, foto barang dan surat jalan ber-watermark GPS/waktu/alamat/nopol, serta OCR scan teks berbasis Room Database lokal.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]

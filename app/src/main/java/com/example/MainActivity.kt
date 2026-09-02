@@ -29,6 +29,7 @@ import com.example.databinding.ActivityMainBinding
 import com.example.databinding.DialogOrderDetailBinding
 import com.example.ui.OrderAdapter
 import com.example.util.ExcelExporter
+import com.example.util.ImageUtils
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
@@ -87,15 +88,19 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        updateNopolDisplay()
+        updatePengurusAndNopolDisplay()
     }
 
     private fun setupDashboardHeader() {
         binding.tvDashboardDate.text = dateFormat.format(Date())
-        updateNopolDisplay()
+        updatePengurusAndNopolDisplay()
 
         binding.btnEditNopol.setOnClickListener {
-            showEditNopolDialog()
+            showEditPengurusAndNopolDialog()
+        }
+
+        binding.cardVehicleInfo.setOnClickListener {
+            showEditPengurusAndNopolDialog()
         }
 
         binding.btnRefreshDashboardLocation.setOnClickListener {
@@ -103,31 +108,35 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateNopolDisplay() {
-        val savedNopol = sharedPreferences.getString("key_nopol", "B 1234 ABC") ?: "B 1234 ABC"
-        binding.tvDashboardNopol.text = savedNopol.uppercase()
+    private fun updatePengurusAndNopolDisplay() {
+        val savedPengurus = sharedPreferences.getString("key_pengurus_name", "Abedem") ?: "Abedem"
+        binding.tvDashboardPengurusCard.text = savedPengurus
     }
 
-    private fun showEditNopolDialog() {
+    private fun showEditPengurusAndNopolDialog() {
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_edit_pengurus_nopol, null)
+        val etPengurus = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etDialogPengurus)
+        val etNopol = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etDialogNopol)
+
+        val currentPengurus = sharedPreferences.getString("key_pengurus_name", "Abedem") ?: "Abedem"
         val currentNopol = sharedPreferences.getString("key_nopol", "B 1234 ABC") ?: "B 1234 ABC"
-        val input = EditText(this).apply {
-            setText(currentNopol)
-            setSelection(currentNopol.length)
-            setSingleLine(true)
-            setPadding(48, 32, 48, 32)
-        }
+
+        etPengurus.setText(currentPengurus)
+        etNopol.setText(currentNopol)
 
         MaterialAlertDialogBuilder(this)
-            .setTitle("Ubah Nomor Polisi Kendaraan")
-            .setMessage("Masukkan Nopol armada yang sedang Anda gunakan:")
-            .setView(input)
+            .setView(dialogView)
             .setPositiveButton("Simpan") { _, _ ->
-                val newNopol = input.text.toString().trim()
-                if (newNopol.isNotBlank()) {
-                    sharedPreferences.edit().putString("key_nopol", newNopol).apply()
-                    updateNopolDisplay()
-                    Toast.makeText(this, "Nopol berhasil diubah: $newNopol", Toast.LENGTH_SHORT).show()
-                }
+                val newPengurus = etPengurus.text?.toString()?.trim().orEmpty().ifBlank { "Abedem" }
+                val newNopol = etNopol.text?.toString()?.trim().orEmpty().ifBlank { "B 1234 ABC" }
+
+                sharedPreferences.edit()
+                    .putString("key_pengurus_name", newPengurus)
+                    .putString("key_nopol", newNopol)
+                    .apply()
+
+                updatePengurusAndNopolDisplay()
+                Toast.makeText(this, "Data diperbarui: $newPengurus ($newNopol)", Toast.LENGTH_SHORT).show()
             }
             .setNegativeButton("Batal", null)
             .show()
@@ -136,7 +145,8 @@ class MainActivity : AppCompatActivity() {
     private fun setupRecyclerView() {
         orderAdapter = OrderAdapter(
             onItemClick = { order -> showOrderDetailDialog(order) },
-            onDeleteClick = { order -> confirmDeleteOrder(order) }
+            onDeleteClick = { order -> confirmDeleteOrder(order) },
+            onEditClick = { order -> showEditOrderDialog(order) }
         )
         binding.rvRecentOrders.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
@@ -162,6 +172,20 @@ class MainActivity : AppCompatActivity() {
         // Secondary Action: Export Excel
         binding.cardBtnExportExcel.setOnClickListener {
             exportOrdersToExcel()
+        }
+
+        // Google Drive Button
+        binding.cardBtnGoogleDrive.setOnClickListener {
+            openGoogleDriveFolder()
+        }
+    }
+
+    private fun openGoogleDriveFolder() {
+        try {
+            val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse(ExcelExporter.GOOGLE_DRIVE_FOLDER_URL))
+            startActivity(intent)
+        } catch (e: Exception) {
+            Toast.makeText(this, "Tidak dapat membuka link Google Drive: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -396,16 +420,44 @@ class MainActivity : AppCompatActivity() {
             val bitmap = BitmapFactory.decodeFile(order.goodsPhotoUri)
             dialogBinding.ivDetailGoods.setImageBitmap(bitmap)
             dialogBinding.ivDetailGoods.visibility = View.VISIBLE
+            dialogBinding.btnDownloadGoodsPhoto.visibility = View.VISIBLE
+            dialogBinding.btnShareGoodsPhoto.visibility = View.VISIBLE
+
+            dialogBinding.btnDownloadGoodsPhoto.setOnClickListener {
+                downloadPhoto(order.goodsPhotoUri, "BARANG_${order.orderName}")
+            }
+            dialogBinding.btnShareGoodsPhoto.setOnClickListener {
+                sharePhoto(order.goodsPhotoUri, "Foto Barang: ${order.orderName}")
+            }
+            dialogBinding.ivDetailGoods.setOnClickListener {
+                showFullscreenPhotoDialog(order.goodsPhotoUri, "Foto Barang - ${order.orderName}")
+            }
         } else {
             dialogBinding.ivDetailGoods.visibility = View.GONE
+            dialogBinding.btnDownloadGoodsPhoto.visibility = View.GONE
+            dialogBinding.btnShareGoodsPhoto.visibility = View.GONE
         }
 
         if (order.waybillPhotoUri.isNotBlank() && File(order.waybillPhotoUri).exists()) {
             val bitmap = BitmapFactory.decodeFile(order.waybillPhotoUri)
             dialogBinding.ivDetailWaybill.setImageBitmap(bitmap)
             dialogBinding.ivDetailWaybill.visibility = View.VISIBLE
+            dialogBinding.btnDownloadWaybillPhoto.visibility = View.VISIBLE
+            dialogBinding.btnShareWaybillPhoto.visibility = View.VISIBLE
+
+            dialogBinding.btnDownloadWaybillPhoto.setOnClickListener {
+                downloadPhoto(order.waybillPhotoUri, "SURAT_JALAN_${order.orderName}")
+            }
+            dialogBinding.btnShareWaybillPhoto.setOnClickListener {
+                sharePhoto(order.waybillPhotoUri, "Foto Surat Jalan: ${order.orderName}")
+            }
+            dialogBinding.ivDetailWaybill.setOnClickListener {
+                showFullscreenPhotoDialog(order.waybillPhotoUri, "Foto Surat Jalan - ${order.orderName}")
+            }
         } else {
             dialogBinding.ivDetailWaybill.visibility = View.GONE
+            dialogBinding.btnDownloadWaybillPhoto.visibility = View.GONE
+            dialogBinding.btnShareWaybillPhoto.visibility = View.GONE
         }
 
         if (order.ocrResultText.isNotBlank()) {
@@ -417,6 +469,149 @@ class MainActivity : AppCompatActivity() {
 
         dialogBinding.btnDetailClose.setOnClickListener {
             dialog.dismiss()
+        }
+
+        dialogBinding.btnDetailOpenDrive.setOnClickListener {
+            openGoogleDriveFolder()
+        }
+
+        dialogBinding.btnDetailEdit.setOnClickListener {
+            dialog.dismiss()
+            showEditOrderDialog(order)
+        }
+
+        dialog.show()
+    }
+
+    private fun downloadPhoto(photoPath: String, titlePrefix: String) {
+        val uri = ImageUtils.downloadImageToGallery(this, photoPath, titlePrefix)
+        if (uri != null) {
+            Toast.makeText(this, "Foto berhasil di-download & disimpan ke Galeri HP (Pictures/AbdeKurir)", Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(this, "Gagal men-download foto. File tidak ditemukan.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun sharePhoto(photoPath: String, subject: String) {
+        val intent = ImageUtils.getShareImageIntent(this, photoPath, subject)
+        if (intent != null) {
+            startActivity(Intent.createChooser(intent, "Bagikan Foto Melalui..."))
+        } else {
+            Toast.makeText(this, "File foto tidak ditemukan", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun showFullscreenPhotoDialog(photoPath: String, title: String) {
+        val file = File(photoPath)
+        if (!file.exists()) return
+
+        val viewerBinding = com.example.databinding.DialogFullscreenPhotoBinding.inflate(LayoutInflater.from(this))
+        val dialog = AlertDialog.Builder(this)
+            .setView(viewerBinding.root)
+            .create()
+
+        viewerBinding.tvViewerTitle.text = title
+        val bitmap = BitmapFactory.decodeFile(photoPath)
+        viewerBinding.ivViewerImage.setImageBitmap(bitmap)
+
+        viewerBinding.btnViewerClose.setOnClickListener { dialog.dismiss() }
+        viewerBinding.btnViewerDownload.setOnClickListener {
+            downloadPhoto(photoPath, title.replace(" ", "_"))
+        }
+        viewerBinding.btnViewerShare.setOnClickListener {
+            sharePhoto(photoPath, title)
+        }
+
+        dialog.show()
+    }
+
+    private fun showEditOrderDialog(order: OrderEntity) {
+        val editBinding = com.example.databinding.DialogEditOrderBinding.inflate(LayoutInflater.from(this))
+        val dialog = AlertDialog.Builder(this)
+            .setView(editBinding.root)
+            .create()
+
+        var currentGoodsPhoto = order.goodsPhotoUri
+        var currentWaybillPhoto = order.waybillPhotoUri
+
+        // Load Goods Photo Preview
+        if (currentGoodsPhoto.isNotBlank() && File(currentGoodsPhoto).exists()) {
+            val bmp = BitmapFactory.decodeFile(currentGoodsPhoto)
+            editBinding.ivEditGoodsPreview.setImageBitmap(bmp)
+        } else {
+            editBinding.ivEditGoodsPreview.setImageResource(R.drawable.ic_camera)
+        }
+
+        // Load Waybill Photo Preview
+        if (currentWaybillPhoto.isNotBlank() && File(currentWaybillPhoto).exists()) {
+            val bmp = BitmapFactory.decodeFile(currentWaybillPhoto)
+            editBinding.ivEditWaybillPreview.setImageBitmap(bmp)
+        } else {
+            editBinding.ivEditWaybillPreview.setImageResource(R.drawable.ic_camera)
+        }
+
+        editBinding.etEditNopol.setText(order.nopol)
+        editBinding.etEditOrderName.setText(order.orderName)
+        editBinding.etEditAddress.setText(order.address)
+        editBinding.etEditOcr.setText(order.ocrResultText)
+
+        // Launch full Camera & Edit screen in NewOrderActivity
+        val launchFullEdit = {
+            dialog.dismiss()
+            val intent = Intent(this, NewOrderActivity::class.java).apply {
+                putExtra("EXTRA_EDIT_ORDER_ID", order.id)
+            }
+            startActivity(intent)
+        }
+
+        editBinding.btnOpenFullEditCamera.setOnClickListener { launchFullEdit() }
+        editBinding.btnEditChangeGoods.setOnClickListener { launchFullEdit() }
+        editBinding.btnEditChangeWaybill.setOnClickListener { launchFullEdit() }
+
+        // Delete Goods Photo action
+        editBinding.btnEditDeleteGoods.setOnClickListener {
+            currentGoodsPhoto = ""
+            editBinding.ivEditGoodsPreview.setImageResource(R.drawable.ic_camera)
+            Toast.makeText(this, "Foto barang dihapus dari catatan order", Toast.LENGTH_SHORT).show()
+        }
+
+        // Delete Waybill Photo action
+        editBinding.btnEditDeleteWaybill.setOnClickListener {
+            currentWaybillPhoto = ""
+            editBinding.ivEditWaybillPreview.setImageResource(R.drawable.ic_camera)
+            Toast.makeText(this, "Foto surat jalan dihapus dari catatan order", Toast.LENGTH_SHORT).show()
+        }
+
+        editBinding.btnCancelEdit.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        editBinding.btnSaveEdit.setOnClickListener {
+            val updatedNopol = editBinding.etEditNopol.text?.toString()?.trim() ?: ""
+            var updatedOrderName = editBinding.etEditOrderName.text?.toString()?.trim() ?: ""
+            val updatedAddress = editBinding.etEditAddress.text?.toString()?.trim() ?: ""
+            val updatedOcr = editBinding.etEditOcr.text?.toString()?.trim() ?: ""
+
+            if (updatedOrderName.isBlank()) {
+                updatedOrderName = "SJ-${order.id}"
+            }
+
+            val updatedOrder = order.copy(
+                nopol = updatedNopol,
+                orderName = updatedOrderName,
+                address = updatedAddress,
+                ocrResultText = updatedOcr,
+                goodsPhotoUri = currentGoodsPhoto,
+                waybillPhotoUri = currentWaybillPhoto
+            )
+
+            lifecycleScope.launch(Dispatchers.IO) {
+                database.orderDao().updateOrder(updatedOrder)
+                withContext(Dispatchers.Main) {
+                    dialog.dismiss()
+                    Toast.makeText(this@MainActivity, "Data & foto pengiriman berhasil diperbarui!", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
         dialog.show()

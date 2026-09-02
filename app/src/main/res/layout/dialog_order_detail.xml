@@ -80,15 +80,51 @@
         </LinearLayout>
 
         <!-- Goods Photo -->
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:letterSpacing="0.05"
-            android:text="ITEM PHOTO (WATERMARKED)"
-            android:textColor="@color/primary"
-            android:textSize="11sp"
-            android:textStyle="bold" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:letterSpacing="0.05"
+                android:text="FOTO BARANG (WATERMARKED)"
+                android:textColor="@color/primary"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDownloadGoodsPhoto"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:backgroundTint="@color/primary_tonal_light"
+                android:paddingStart="10dp"
+                android:paddingEnd="12dp"
+                android:text="Download"
+                android:textColor="@color/primary_tonal_text"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                app:cornerRadius="18dp"
+                app:icon="@drawable/ic_download"
+                app:iconPadding="4dp"
+                app:iconSize="16dp"
+                app:iconTint="@color/primary_tonal_text" />
+
+            <ImageButton
+                android:id="@+id/btnShareGoodsPhoto"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="6dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Bagikan Foto Barang"
+                android:src="@drawable/ic_share"
+                app:tint="@color/primary" />
+        </LinearLayout>
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivDetailGoods"
@@ -100,15 +136,51 @@
             app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium" />
 
         <!-- Waybill Photo -->
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:letterSpacing="0.05"
-            android:text="LABEL SCAN PHOTO (WATERMARKED)"
-            android:textColor="@color/primary"
-            android:textSize="11sp"
-            android:textStyle="bold" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:letterSpacing="0.05"
+                android:text="FOTO SURAT JALAN (WATERMARKED)"
+                android:textColor="@color/primary"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDownloadWaybillPhoto"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:backgroundTint="@color/primary_tonal_light"
+                android:paddingStart="10dp"
+                android:paddingEnd="12dp"
+                android:text="Download"
+                android:textColor="@color/primary_tonal_text"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                app:cornerRadius="18dp"
+                app:icon="@drawable/ic_download"
+                app:iconPadding="4dp"
+                app:iconSize="16dp"
+                app:iconTint="@color/primary_tonal_text" />
+
+            <ImageButton
+                android:id="@+id/btnShareWaybillPhoto"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="6dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Bagikan Foto Surat Jalan"
+                android:src="@drawable/ic_share"
+                app:tint="@color/primary" />
+        </LinearLayout>
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivDetailWaybill"
@@ -140,16 +212,62 @@
             android:textColor="@color/text_primary"
             android:textSize="12sp" />
 
-        <Button
-            android:id="@+id/btnDetailClose"
-            style="@style/Widget.Material3.Button"
+        <!-- Google Drive Cloud Link Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDetailOpenDrive"
+            style="@style/Widget.Material3.Button.TonalButton"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="@color/primary"
-            android:text="TUTUP"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/secondary_tonal_light"
+            android:text="Buka Folder Google Drive Driver"
+            android:textColor="@color/secondary_tonal_text"
+            android:textSize="13sp"
             android:textStyle="bold"
-            app:cornerRadius="24dp" />
+            app:cornerRadius="24dp"
+            app:icon="@drawable/ic_google_drive"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            app:iconSize="20dp"
+            app:iconTint="@color/secondary_tonal_text" />
+
+        <!-- Action Row: Edit Order & Close -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDetailEdit"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/primary"
+                android:text="EDIT ORDER"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                app:cornerRadius="24dp"
+                app:icon="@drawable/ic_edit"
+                app:iconGravity="textStart"
+                app:iconPadding="6dp"
+                app:iconSize="18dp"
+                app:iconTint="#FFFFFF" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDetailClose"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1"
+                android:text="TUTUP"
+                android:textColor="@color/text_secondary"
+                android:textStyle="bold"
+                app:cornerRadius="24dp" />
+        </LinearLayout>
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

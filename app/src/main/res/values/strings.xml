@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Abedem</string>
+    <string name="app_name">abde.kurir</string>
     <string name="app_tagline">Kurir Ekspedisi - Log &amp; OCR Lokal</string>
     <string name="dashboard_title">Dashboard Kurir</string>
     <string name="dashboard_subtitle">Kelola &amp; pantau aktivitas pengiriman harian</string>

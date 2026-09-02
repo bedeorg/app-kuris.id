@@ -56,7 +56,8 @@ object ImageUtils {
         timestamp: Long,
         address: String = "",
         nopol: String = "",
-        tag: String = "ABDE LOGIS"
+        pengurus: String = "",
+        tag: String = "abde.kurir"
     ): Bitmap {
         val mutableBitmap = if (source.isMutable) {
             source
@@ -126,7 +127,9 @@ object ImageUtils {
         val lineItems = mutableListOf<WatermarkLine>()
 
         // 1. Tag / Brand & Nopol Header
-        val headerTitle = if (nopol.isNotBlank()) "$tag [${nopol.uppercase()}]" else tag
+        val nopolPart = if (nopol.isNotBlank()) " [${nopol.uppercase()}]" else ""
+        val pengurusHeader = if (pengurus.isNotBlank()) " • Pengurus: $pengurus" else ""
+        val headerTitle = "$tag$nopolPart$pengurusHeader"
         lineItems.add(WatermarkLine(headerTitle, titlePaint))
 
         // 2. Alamat (Address FIRST)
@@ -256,5 +259,70 @@ object ImageUtils {
         }
 
         return destFile.absolutePath
+    }
+
+    /**
+     * Downloads and saves an image from internal storage directly to the device's public Gallery (Pictures/AbdeKurir).
+     * Compatible with modern Android Scoped Storage via MediaStore API.
+     */
+    fun downloadImageToGallery(context: Context, imageFilePath: String, customTitle: String = "ABDE_KURIR_FOTO"): android.net.Uri? {
+        val sourceFile = File(imageFilePath)
+        if (!sourceFile.exists()) return null
+
+        val fileName = "${customTitle}_${SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())}.jpg"
+        val contentValues = android.content.ContentValues().apply {
+            put(android.provider.MediaStore.MediaColumns.DISPLAY_NAME, fileName)
+            put(android.provider.MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+                put(android.provider.MediaStore.MediaColumns.RELATIVE_PATH, "Pictures/AbdeKurir")
+                put(android.provider.MediaStore.MediaColumns.IS_PENDING, 1)
+            }
+        }
+
+        val resolver = context.contentResolver
+        val imageUri = resolver.insert(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+
+        if (imageUri != null) {
+            try {
+                resolver.openOutputStream(imageUri)?.use { outStream ->
+                    java.io.FileInputStream(sourceFile).use { inStream ->
+                        inStream.copyTo(outStream)
+                    }
+                    outStream.flush()
+                }
+
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+                    contentValues.clear()
+                    contentValues.put(android.provider.MediaStore.MediaColumns.IS_PENDING, 0)
+                    resolver.update(imageUri, contentValues, null, null)
+                }
+                return imageUri
+            } catch (e: Exception) {
+                resolver.delete(imageUri, null, null)
+                return null
+            }
+        }
+        return null
+    }
+
+    /**
+     * Creates an Intent to share an image file using FileProvider.
+     */
+    fun getShareImageIntent(context: Context, imageFilePath: String, subject: String = "Foto Pengiriman ABDE KURIR"): android.content.Intent? {
+        val file = File(imageFilePath)
+        if (!file.exists()) return null
+
+        val contentUri = androidx.core.content.FileProvider.getUriForFile(
+            context,
+            "${context.packageName}.fileprovider",
+            file
+        )
+
+        return android.content.Intent(android.content.Intent.ACTION_SEND).apply {
+            type = "image/jpeg"
+            putExtra(android.content.Intent.EXTRA_SUBJECT, subject)
+            putExtra(android.content.Intent.EXTRA_STREAM, contentUri)
+            addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
     }
 }

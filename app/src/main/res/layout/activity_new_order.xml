@@ -52,6 +52,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tvNewOrderTitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Input Order Baru"
@@ -60,6 +61,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/tvNewOrderSubtitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
@@ -124,12 +126,22 @@
                                 app:tint="@color/primary" />
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="6dp"
+                                android:layout_weight="1"
                                 android:letterSpacing="0.06"
                                 android:text="PENGIRIMAN &amp; ARMADA"
                                 android:textColor="@color/primary"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvQuickPengurus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Pengurus: Abedem"
+                                android:textColor="@color/text_secondary"
                                 android:textSize="11sp"
                                 android:textStyle="bold" />
                         </LinearLayout>

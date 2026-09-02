@@ -48,14 +48,16 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tvDashboardHeaderTitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Abedem Courier"
+                            android:text="abde.kurir"
                             android:textColor="#FFFFFF"
                             android:textSize="20sp"
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/tvDashboardSubtitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
@@ -90,7 +92,7 @@
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
 
-                <!-- Courier & Vehicle Card -->
+                <!-- Courier Info Card -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardVehicleInfo"
                     android:layout_width="match_parent"
@@ -116,8 +118,8 @@
                             <ImageView
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:contentDescription="Truck"
-                                android:src="@drawable/ic_truck"
+                                android:contentDescription="Pengurus"
+                                android:src="@drawable/ic_person"
                                 app:tint="@color/primary" />
 
                             <TextView
@@ -125,7 +127,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
                                 android:layout_weight="1"
-                                android:text="KENDARAAN &amp; ARMADA"
+                                android:text="PENGURUS PENGIRIMAN"
                                 android:textColor="@color/text_secondary"
                                 android:textSize="11sp"
                                 android:textStyle="bold" />
@@ -138,13 +140,13 @@
                                 android:minHeight="0dp"
                                 android:paddingStart="8dp"
                                 android:paddingEnd="8dp"
-                                android:text="Ubah Nopol"
+                                android:text="Ubah Pengurus"
                                 android:textColor="@color/primary"
                                 android:textSize="12sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
 
-                        <!-- Big Nopol & Date Row -->
+                        <!-- Big Pengurus Name & Date Row -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -153,11 +155,11 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:id="@+id/tvDashboardNopol"
+                                android:id="@+id/tvDashboardPengurusCard"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="B 1234 ABC"
+                                android:text="Abedem"
                                 android:textColor="@color/text_primary"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
@@ -442,7 +444,7 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Secondary Actions: Riwayat & Export Excel (2 Cards Grid) -->
+                <!-- Secondary Actions: Riwayat & Export Excel & Google Drive (Grid) -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -454,7 +456,7 @@
                         android:id="@+id/cardBtnHistory"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="5dp"
+                        android:layout_marginEnd="4dp"
                         android:layout_weight="1"
                         android:clickable="true"
                         android:focusable="true"
@@ -481,7 +483,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
-                                android:text="Riwayat &amp; Filter"
+                                android:text="Riwayat"
                                 android:textColor="@color/text_primary"
                                 android:textSize="13sp"
                                 android:textStyle="bold" />
@@ -490,7 +492,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="2dp"
-                                android:text="Pencarian &amp; filter per tanggal"
+                                android:text="Edit &amp; cari order"
                                 android:textColor="@color/text_hint"
                                 android:textSize="10sp" />
                         </LinearLayout>
@@ -501,7 +503,8 @@
                         android:id="@+id/cardBtnExportExcel"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
                         android:layout_weight="1"
                         android:clickable="true"
                         android:focusable="true"
@@ -528,7 +531,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
-                                android:text="Export to Excel"
+                                android:text="Excel"
                                 android:textColor="@color/text_primary"
                                 android:textSize="13sp"
                                 android:textStyle="bold" />
@@ -537,7 +540,53 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="2dp"
-                                android:text="Download CSV spreadsheet"
+                                android:text="Download CSV"
+                                android:textColor="@color/text_hint"
+                                android:textSize="10sp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Google Drive Folder Card -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardBtnGoogleDrive"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:cardBackgroundColor="#FFFFFF"
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="1dp"
+                        app:strokeColor="@color/border_subtle"
+                        app:strokeWidth="1dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="12dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:contentDescription="Google Drive"
+                                android:src="@drawable/ic_google_drive" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="Drive"
+                                android:textColor="@color/text_primary"
+                                android:textSize="13sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="Folder Bukti"
                                 android:textColor="@color/text_hint"
                                 android:textSize="10sp" />
                         </LinearLayout>

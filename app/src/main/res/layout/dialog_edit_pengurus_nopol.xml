@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ubah Data Pengurus &amp; Armada"
+        android:textColor="@color/text_primary"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Data pengurus dan nopol akan tercetak otomatis pada watermark foto dan data pengiriman."
+        android:textColor="@color/text_secondary"
+        android:textSize="12sp" />
+
+    <!-- Input Nama Pengurus -->
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Nama Pengurus / Kurir"
+        app:boxStrokeColor="@color/primary"
+        app:startIconDrawable="@drawable/ic_person"
+        app:startIconTint="@color/primary">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etDialogPengurus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords"
+            android:maxLines="1"
+            android:text="Abedem" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Input Nopol -->
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:hint="Nomor Polisi Kendaraan (Nopol)"
+        app:boxStrokeColor="@color/primary"
+        app:startIconDrawable="@drawable/ic_truck"
+        app:startIconTint="@color/primary">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etDialogNopol"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 -."
+            android:inputType="textCapCharacters"
+            android:maxLines="1"
+            android:text="B 1234 ABC" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+</LinearLayout>

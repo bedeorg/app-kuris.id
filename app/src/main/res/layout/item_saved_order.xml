@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
+                android:layout_marginEnd="4dp"
                 android:background="@drawable/bg_status_badge"
                 android:paddingStart="8dp"
                 android:paddingTop="2dp"
@@ -63,9 +63,19 @@
                 tools:text="B 1234 ABC" />
 
             <ImageButton
+                android:id="@+id/btnEditItem"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Edit Order"
+                android:src="@drawable/ic_edit"
+                app:tint="@color/primary" />
+
+            <ImageButton
                 android:id="@+id/btnDeleteItem"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
+                android:layout_marginStart="2dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Hapus Order"
                 android:src="@drawable/ic_delete"

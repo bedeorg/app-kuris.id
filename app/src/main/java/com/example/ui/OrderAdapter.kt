@@ -17,7 +17,8 @@ import java.util.Locale
 
 class OrderAdapter(
     private val onItemClick: (OrderEntity) -> Unit,
-    private val onDeleteClick: (OrderEntity) -> Unit
+    private val onDeleteClick: (OrderEntity) -> Unit,
+    private val onEditClick: ((OrderEntity) -> Unit)? = null
 ) : ListAdapter<OrderEntity, OrderAdapter.OrderViewHolder>(OrderDiffCallback()) {
 
     private val dateFormat = SimpleDateFormat("dd MMM yyyy, HH:mm 'WIB'", Locale("id", "ID"))
@@ -80,6 +81,10 @@ class OrderAdapter(
             // Load thumbnails from internal storage
             loadThumbnail(item.goodsPhotoUri, binding.ivItemGoods)
             loadThumbnail(item.waybillPhotoUri, binding.ivItemWaybill)
+
+            binding.btnEditItem.setOnClickListener {
+                onEditClick?.invoke(item) ?: onItemClick(item)
+            }
 
             binding.btnDeleteItem.setOnClickListener {
                 onDeleteClick(item)

@@ -17,11 +17,12 @@ object ExcelExporter {
 
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale("id", "ID"))
     private val fileNameDateFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US)
+    const val GOOGLE_DRIVE_FOLDER_URL = "https://drive.google.com/drive/folders/1lfExGr9eAhQEeaP0_X0gffdr8UGJoxDl"
 
     /**
      * Exports list of orders into a CSV file compatible with Microsoft Excel, Google Sheets, etc.
-     * Uses UTF-8 BOM to ensure Excel opens Indonesian characters and numbers cleanly.
-     * Includes structured table columns: Nopol, Tgl Orderan, Surat Jalan, Alamat, and photo links.
+     * Uses UTF-8 BOM to ensure Excel opens Indonesian characters cleanly.
+     * Formats tidy table columns: No, Nopol, Tgl Orderan, Surat Jalan, Alamat & GPS, Link Google Drive, Bukti Foto Barang, Bukti Foto Surat Jalan, Status Foto, OCR.
      */
     fun exportOrdersToCsv(context: Context, orders: List<OrderEntity>): File {
         val exportDir = File(context.cacheDir, "exports")
@@ -34,11 +35,11 @@ object ExcelExporter {
 
         FileOutputStream(file).use { fos ->
             OutputStreamWriter(fos, StandardCharsets.UTF_8).use { writer ->
-                // Write UTF-8 BOM so Excel opens with correct encoding
+                // Write UTF-8 BOM so Excel opens with correct encoding and layout
                 writer.write("\uFEFF")
 
-                // CSV Headers as requested: Nopol, Tgl Orderan, Surat Jalan, Bukti Foto Links, etc.
-                writer.write("No,Nopol,Tgl Orderan,Surat Jalan,Alamat & Lokasi GPS,Link Foto Barang (Driver),Link Foto Surat Jalan (Driver),Status Foto,Hasil Bacaan OCR Surat Jalan\n")
+                // CSV Headers as requested
+                writer.write("No,Nopol,Tgl Orderan,Surat Jalan,Alamat & Lokasi GPS,Folder Google Drive,Link Foto Barang (Driver),Link Foto Surat Jalan (Driver),Status Foto,Hasil Bacaan OCR Surat Jalan\n")
 
                 // Rows
                 orders.forEachIndexed { index, order ->
@@ -52,13 +53,15 @@ object ExcelExporter {
                     } else ""
                     val fullAddress = escapeCsv("${order.address}$gpsCoords")
 
+                    // Google Drive Folder Link Formula
+                    val gDriveFormula = escapeCsv("=HYPERLINK(\"$GOOGLE_DRIVE_FOLDER_URL\",\"Buka Folder Google Drive\")")
+
                     // Link Foto Barang
                     val goodsPhotoLink = if (order.goodsPhotoUri.isNotBlank()) {
                         val photoFile = File(order.goodsPhotoUri)
                         if (photoFile.exists()) {
                             val fileUri = "file://${photoFile.absolutePath}"
-                            // Excel hyperlink formula + direct path
-                            escapeCsv("=HYPERLINK(\"$fileUri\",\"Buka Foto Barang\")")
+                            escapeCsv("=HYPERLINK(\"$fileUri\",\"Buka Foto Barang (${photoFile.name})\")")
                         } else {
                             escapeCsv(order.goodsPhotoUri)
                         }
@@ -71,8 +74,7 @@ object ExcelExporter {
                         val photoFile = File(order.waybillPhotoUri)
                         if (photoFile.exists()) {
                             val fileUri = "file://${photoFile.absolutePath}"
-                            // Excel hyperlink formula + direct path
-                            escapeCsv("=HYPERLINK(\"$fileUri\",\"Buka Foto Surat Jalan\")")
+                            escapeCsv("=HYPERLINK(\"$fileUri\",\"Buka Foto Surat Jalan (${photoFile.name})\")")
                         } else {
                             escapeCsv(order.waybillPhotoUri)
                         }
@@ -87,9 +89,9 @@ object ExcelExporter {
                         else -> "Belum Ada Foto"
                     }
 
-                    val ocrText = escapeCsv(order.ocrResultText.replace("\n", " | ").trim())
+                    val ocrText = escapeCsv(order.ocrResultText.replace("\n", " | ").replace("\r", "").trim())
 
-                    writer.write("$no,$nopol,$dateFormatted,$suratJalan,$fullAddress,$goodsPhotoLink,$waybillPhotoLink,\"$photoStatus\",$ocrText\n")
+                    writer.write("$no,$nopol,$dateFormatted,$suratJalan,$fullAddress,$gDriveFormula,$goodsPhotoLink,$waybillPhotoLink,\"$photoStatus\",$ocrText\n")
                 }
             }
         }

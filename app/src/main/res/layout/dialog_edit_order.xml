@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/surface_card">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Title Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Edit Catatan Pengiriman"
+                    android:textColor="@color/text_primary"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Perbarui Foto Bukti, Surat Jalan, Nopol &amp; Alamat"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="Edit"
+                android:src="@drawable/ic_edit"
+                app:tint="@color/primary" />
+        </LinearLayout>
+
+        <!-- Shortcut: Buka Kamera Lengkap untuk Ganti Foto -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnOpenFullEditCamera"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="14dp"
+            android:backgroundTint="@color/primary_tonal_light"
+            android:text="Buka Kamera &amp; Foto Ulang Lengkap"
+            android:textColor="@color/primary_tonal_text"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:cornerRadius="12dp"
+            app:icon="@drawable/ic_camera"
+            app:iconGravity="textStart"
+            app:iconPadding="6dp"
+            app:iconSize="18dp"
+            app:iconTint="@color/primary_tonal_text" />
+
+        <!-- Foto Bukti Previews & Quick Edit -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:letterSpacing="0.05"
+            android:text="FOTO BUKTI PENGIRIMAN"
+            android:textColor="@color/primary"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <!-- 2 Photo Cards Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <!-- Card Foto Barang -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                app:cardBackgroundColor="@color/surface_subtle"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/border_subtle"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1. Foto Barang"
+                        android:textColor="@color/text_primary"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/ivEditGoodsPreview"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="6dp"
+                        android:background="#E2E8F0"
+                        android:contentDescription="Foto Barang"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_camera" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnEditChangeGoods"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="0dp"
+                            android:layout_height="32dp"
+                            android:layout_weight="1"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:paddingStart="4dp"
+                            android:paddingEnd="4dp"
+                            android:text="Ganti"
+                            android:textColor="@color/primary"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            app:cornerRadius="8dp" />
+
+                        <ImageButton
+                            android:id="@+id/btnEditDeleteGoods"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_marginStart="4dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="Hapus Foto Barang"
+                            android:src="@drawable/ic_delete"
+                            app:tint="@color/status_error" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Card Foto Surat Jalan -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_weight="1"
+                app:cardBackgroundColor="@color/surface_subtle"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/border_subtle"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2. Foto Surat Jalan"
+                        android:textColor="@color/text_primary"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/ivEditWaybillPreview"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="6dp"
+                        android:background="#E2E8F0"
+                        android:contentDescription="Foto Surat Jalan"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_camera" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnEditChangeWaybill"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="0dp"
+                            android:layout_height="32dp"
+                            android:layout_weight="1"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:paddingStart="4dp"
+                            android:paddingEnd="4dp"
+                            android:text="Ganti"
+                            android:textColor="@color/primary"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            app:cornerRadius="8dp" />
+
+                        <ImageButton
+                            android:id="@+id/btnEditDeleteWaybill"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_marginStart="4dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="Hapus Foto Surat Jalan"
+                            android:src="@drawable/ic_delete"
+                            app:tint="@color/status_error" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+        <!-- Edit Nopol -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilEditNopol"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Nomor Polisi (Nopol)"
+            app:boxBackgroundColor="@color/surface_subtle"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/primary"
+            app:boxStrokeWidth="1.5dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etEditNopol"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 -."
+                android:inputType="textCapCharacters"
+                android:maxLines="1"
+                android:textColor="@color/text_primary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Edit Order Name -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilEditOrderName"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Nama Order / Nomor Surat Jalan"
+            app:boxBackgroundColor="@color/surface_subtle"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/primary"
+            app:boxStrokeWidth="1.5dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etEditOrderName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapCharacters"
+                android:maxLines="1"
+                android:textColor="@color/text_primary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Edit Address -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilEditAddress"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Alamat Pengiriman"
+            app:boxBackgroundColor="@color/surface_subtle"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/primary"
+            app:boxStrokeWidth="1.5dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etEditAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:maxLines="3"
+                android:textColor="@color/text_primary"
+                android:textSize="13sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Edit OCR Result -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilEditOcr"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Hasil Teks Surat Jalan (OCR)"
+            app:boxBackgroundColor="@color/surface_subtle"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/primary"
+            app:boxStrokeWidth="1.5dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etEditOcr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top|start"
+                android:inputType="textMultiLine"
+                android:minLines="3"
+                android:textColor="@color/text_primary"
+                android:textSize="13sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Action Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCancelEdit"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:text="Batal"
+                android:textColor="@color/text_secondary"
+                android:textStyle="bold" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSaveEdit"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="@color/primary"
+                android:text="Simpan Perubahan"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                app:cornerRadius="12dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
